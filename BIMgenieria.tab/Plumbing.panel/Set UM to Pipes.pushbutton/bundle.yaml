@@ -1,8 +1,0 @@
-title: Set UM to Sanitary Pipes
-tooltip: |
-    -Dynamo Script-
-    Set UM to pipes according to 
-    IMSS (Instituto Mexicano del Seguro Social)
-    Fixture Units table 5.4
-    Hunter - Nielsen method.
-author: Antonio Rojas

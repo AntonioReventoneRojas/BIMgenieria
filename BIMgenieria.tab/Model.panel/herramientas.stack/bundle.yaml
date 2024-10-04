@@ -1,0 +1,4 @@
+layout:
+  - ZoomToSelection
+  - MatchElevation
+  - GetElements
