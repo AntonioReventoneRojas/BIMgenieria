@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-__title__= "WIP_Get Offset" #Name of the button displayed in Revit UI
+__title__= "Offset" #Name of the button displayed in Revit UI
 __doc__= """Version 1.0
 Description:
-
+Select two horizontal objects, like conduit or cable tray 
+and get the offset.
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
