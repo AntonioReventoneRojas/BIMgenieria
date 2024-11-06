@@ -11,6 +11,8 @@ __author__= "Antonio Rojas"
 #IMPORTS
 #---------------------------------------------------------------
 import os, sys, datetime                                    #Regular imports
+
+import pyrevit.revit.db.query
 from Autodesk.Revit.DB import *                             #Import DB Classes
 from Autodesk.Revit.UI import *                             #Import UI Classes
 from Autodesk.Revit.DB.Electrical import  *                 #Import discipline modules
@@ -47,9 +49,14 @@ path_scrypt = os.path.dirname(__file__)             #Absolute path to folder whe
 #---------------------------------------------------------------
 #CODE START HERE
 
+element = revit.selection.pick_elements("Select object")
+
+for e in element:
+    # print(e , pyrevit.revit.db.query.get_param_value("Type Name")) #pyrevit method
+    print(e, e.get_Parameter(BuiltInParameter.RBS_OFFSET_PARAM)) #API method
+    print("-"*50)
 
 
 
 #CODE ENDS HERE
 #---------------------------------------------------------------
-print("This is a template")

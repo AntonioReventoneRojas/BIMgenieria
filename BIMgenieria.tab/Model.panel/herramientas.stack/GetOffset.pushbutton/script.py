@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-__title__= "Offset" #Name of the button displayed in Revit UI
-__doc__= """Version 1.0
-Description:
+__title__= "MEP Offset" #Name of the button displayed in Revit UI
+#Description of the button displayed in Revit UI
+__doc__= """Description:
 Select two horizontal objects, like conduit or cable tray 
 and get the offset.
-""" #Description of the button displayed in Revit UI
+
+Tested in Revit 2022
+
+Author: Ing. Arq. Antonio Rojas
+"""
 
 # pyRevit Extra MetaTags (optional)
 __author__= "Antonio Rojas"
@@ -12,12 +16,16 @@ __author__= "Antonio Rojas"
 #IMPORTS
 #---------------------------------------------------------------
 import os, sys, datetime                                    #Regular imports
+
+import pyrevit.script
 from Autodesk.Revit.DB import *                             #Import DB Classes
 from Autodesk.Revit.UI import *                             #Import UI Classes
 from Autodesk.Revit.DB.Electrical import  *                 #Import discipline modules
 
 #pyRevit Imports
 from pyrevit import forms, revit, script
+
+output = script.get_output()
 
 #.NET Imports
 import clr
@@ -55,11 +63,14 @@ def get_reference_level(element):
 # Lista de categorías permitidas
 allowed_categories = [
     BuiltInCategory.OST_Conduit,
-    BuiltInCategory.OST_CableTray
+    BuiltInCategory.OST_CableTray,
+    BuiltInCategory.OST_DuctCurves,
+    BuiltInCategory.OST_PipeCurves
 ]
 
 #Selección de elementos
-selected_elements = revit.pick_elements("Selecciona dos elementos")
+with forms.WarningBar(title="Selecciona dos elementos:"):
+    selected_elements = revit.pick_elements()
 
 try:
     if len(selected_elements) != 2:
@@ -70,38 +81,33 @@ except:
         if category.Id.IntegerValue not in [cat.value__ for cat in allowed_categories]:
             forms.alert("Debes seleccionar solo elementos Conduit o Cable Tray", exitscript=True)
 
+# Crear una lista para almacenar los resultados
+resultados = []
+elevaciones = []
 
-# Obtener información del primer y segundo elemento
-element_1 = selected_elements[0]
-element_2 = selected_elements[1]
+#Intentar obtener los valores
+for i in selected_elements:
+    middle_elevation = round(get_param_value(i,"Middle Elevation"),7)
+    ob_type = i.Category.Name
+    ob_id = i.Id.IntegerValue
+    resultados.append(
+        {"Element": ob_type , "Element Id": ob_id , "Middle Elevation": middle_elevation}
+    )
+    elevaciones.append(middle_elevation)
 
-# Obtener valores del Middle Elevation y Reference Level
-middle_elevation_1 = round(get_param_value(element_1, "Middle Elevation"),5)
-middle_elevation_2 = round(get_param_value(element_2, "Middle Elevation"),5)
-
-reference_level_1 = get_reference_level(element_1)
-reference_level_2 = get_reference_level(element_2)
-
-print(element_1, element_2)
-print(middle_elevation_1, middle_elevation_2)
-print(abs(abs(middle_elevation_1) - abs(middle_elevation_2)))
+offset = elevaciones[0] - elevaciones[-1]
 
 
-# # Calcular el offset (diferencia entre Middle Elevations)
-# offset = (middle_elevation_1 - middle_elevation_2)
-#
-# # Imprimir la información en la terminal
-# print("Objeto 1")
-# print("Tipo de Objeto: {}".format(element_1.Name))
-# print("Reference Level: {}".format(reference_level_1))
-# print("Middle Elevation: {:.2f}".format(middle_elevation_1))
-#
-# print("\nObjeto 2")
-# print("Tipo de Objeto: {}".format(element_2.Name))
-# print("Reference Level: {}".format(reference_level_2))
-# print("Middle Elevation: {:.2f}".format(middle_elevation_2))
-#
-# print("\n------------")
-# print("Offset: {:.2f}".format(offset))
-
-doc.DisplayUnitSystem
+output.print_md("## Result copied to clipboard")
+pyrevit.script.clipboard_copy(str(offset))
+output.print_md("### Offset between elements is:")
+print(offset)
+print("meters")
+print("""--------------------------------------""")
+output.print_md("###Selected elements:")
+print("""--------------------------------------""")
+for item in resultados:
+    print("Element: {}".format(item['Element']))
+    print("Middle Elevation: {} meters".format(item['Middle Elevation']))
+    print("Element Id: {}".format(item['Element Id']))
+    print("--------------------------------------")
