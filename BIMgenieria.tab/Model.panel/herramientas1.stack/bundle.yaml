@@ -1,4 +1,4 @@
 layout:
   - ZoomToSelection
   - MatchElevation
-  - GetElements
+  - smartalign

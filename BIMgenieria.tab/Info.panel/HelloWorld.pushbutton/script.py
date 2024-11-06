@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 __title__ = "Hello pyRevit"
 __author__ = "AntonioReventoneRojas"
-__doc__ = """Hola Revit este es mi primer add-in MEP para Revit desarrollado con pyRevit"""
+__doc__ = """This is my own pyRevit toolset to make easier my BIM modelling, design and calculation of MEP projects.
+
+This project started on 2022 and still in development.
+
+New ideas are wellcome. 💡
+
+Author: Ing. Arq. Antonio Rojas
+"""
 
 
 #IMPORTS
@@ -22,5 +29,6 @@ from System.Collections.Generic import List
 #MAIN
 #---------------------------------------------------------------
 #CODE START HERE
+print(__doc__)
 
 
