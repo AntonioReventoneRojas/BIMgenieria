@@ -1,5 +1,6 @@
 layout:
   - Dev
+  - Info.panel
   - FileManager
   - Model
   - Electrical
