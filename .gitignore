@@ -1,0 +1,2 @@
+# ignore everything in extension/ folder except for the native pyRevit.extension
+Dev.panel/
