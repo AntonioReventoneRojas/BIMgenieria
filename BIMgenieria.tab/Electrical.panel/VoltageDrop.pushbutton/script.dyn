@@ -1,0 +1,1253 @@
+{
+  "Uuid": "bd0f12d8-5b36-416f-a717-b005f64978cc",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "script",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Dictionary": {
+        "Key": "DesignScript.Builtin.Dictionary",
+        "Value": "DesignScriptBuiltin.dll"
+      },
+      "DesignScript.Builtin.Dictionary": {
+        "Key": "DesignScript.Builtin.Dictionary",
+        "Value": "DesignScriptBuiltin.dll"
+      },
+      "Elements.Element": {
+        "Key": "Revit.Elements.Element",
+        "Value": "RevitNodes.dll"
+      },
+      "Revit.Elements.Element": {
+        "Key": "Revit.Elements.Element",
+        "Value": "RevitNodes.dll"
+      },
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      },
+      "Math": {
+        "Key": "DSCore.Math",
+        "Value": "DSCoreNodes.dll"
+      },
+      "archilab.Lists": {
+        "Key": "archilab.Lists.Lists",
+        "Value": "archilab2022.dll"
+      },
+      "archilab.Lists.Lists": {
+        "Key": "archilab.Lists.Lists",
+        "Value": "archilab2022.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "daa0227188684d0cbf4bc2c96fc8b0f3",
+      "Inputs": [
+        {
+          "Id": "a9d55d077e6248c6acf8c4e749e6c001",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1a5fa0cfdf254115bafb3f45bf48f291",
+          "Name": "Elements",
+          "Description": "An element type.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 190,
+      "SelectedString": "OST_ElectricalCircuit",
+      "NodeType": "ExtensionNode",
+      "Id": "89cad5aa2f7a4b79a5e9e8251d0ed1d1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "54a3568badef47e9a8ac4107253b0cae",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.GetParameterValueByName@string",
+      "Id": "04d2bd99fd4d473ea7d72d6fc2a8b2ed",
+      "Inputs": [
+        {
+          "Id": "8671ab4bc11d4077b307f7c2ddc792c7",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ae68f54c059f468083d577a760b6857c",
+          "Name": "parameterName",
+          "Description": "The name of the parameter whose value you want to obtain.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bcda97c9919e4b879c1459a02ad394d3",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the value of one of the element's parameters.\n\nElement.GetParameterValueByName (parameterName: string): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "Load Name",
+      "Id": "fcc40dc3ab4947058817c266384a50e4",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "dd09debfce5943f8b0c090501b39b32f",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "//Cálculo de caida de tensión\n//Método Sección Transversal\n//Variables\n\n//longitud del circuito\na=longitud_del_circuito;\n //Corriente nominal;\nb=corriente_nominal;\n //Tensión del sistema;\nd=voltaje;\n//sección transversal del conductor\ne= seccion_del_conductor(secc_cond);\n\n//Fórmulas de caida de tensión\ncaida_tension1=(4*a*b)/(d*e);\ncaida_tension2=(2*a*b)/(d*e);\ncaida_tension3=(2*Math.Sqrt(3)*a*b)/(d*e);\n\n//Cálculo de la caida de tensión\ncaida_tension = (polos == 1) ? caida_tension1 :\n\t\t\t\t(polos == 2) ? caida_tension2 :\n\t\t\t\t(polos == 3) ? caida_tension3 :\n\t\t\t\t\"Valor no válido\";",
+      "Id": "305e7984822b431db1c280c24b581c0c",
+      "Inputs": [
+        {
+          "Id": "61f8b00f3c1a41b2a492f531102b82a2",
+          "Name": "longitud_del_circuito",
+          "Description": "longitud_del_circuito",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "db070f6aa97c4826a317d29adc67f9c2",
+          "Name": "corriente_nominal",
+          "Description": "corriente_nominal",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f197cd8b77024437ba9d6848d636bd25",
+          "Name": "voltaje",
+          "Description": "voltaje",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "30edea271d584e4abfd22f09dbebcbd4",
+          "Name": "secc_cond",
+          "Description": "secc_cond",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "41d42916185a44e18c68ce05ed7b755e",
+          "Name": "polos",
+          "Description": "polos",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "99a2f0414da647f48510fe44f58a722b",
+          "Name": "",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9637002596144afa82b2e8ac419b3caf",
+          "Name": "",
+          "Description": "b",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ba712ec48f5548c0a3cac6f2d017d8a7",
+          "Name": "",
+          "Description": "d",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6ce362ca2a724d88bd6ec6fd2360df97",
+          "Name": "",
+          "Description": "e",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8ee22c3d420641e8a9ac21dd1d451967",
+          "Name": "",
+          "Description": "caida_tension1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "aba00cf81d3b483eaa975ae816281d43",
+          "Name": "",
+          "Description": "caida_tension2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9f6bdc2e0b4944189656e70433cd8a80",
+          "Name": "",
+          "Description": "caida_tension3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dd696fd621cf41b397b11ca4f5b49b9e",
+          "Name": "",
+          "Description": "caida_tension",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "//Obetención de variables para calcular\n\n//Parámetros Nativos de Revit\np1 = Elements.Element.GetParameterValueByName(t1, \"Length\");\np2 = Elements.Element.GetParameterValueByName(t1, \"True Current\");\np3 = Elements.Element.GetParameterValueByName(t1, \"Voltage\");\np4 = Elements.Element.GetParameterValueByName(t1, \"Number of Poles\");\np5 = Elements.Element.GetParameterValueByName(t1, \"Power Factor\");\np6 = Elements.Element.GetParameterValueByName(t1, \"Demmand Factor\");\np7 = Elements.Element.GetParameterValueByName(t1, \"True Load\");\n\n\n//Parámetros Compartidos\npc1 = Elements.Element.GetParameterValueByName(t1, \"VLR_CONDUCTOR DE FASE\");\n/*Convertir de número a texto el calibre AWG\npara consultas en diccionarios*/\nconductor_AWG(pc1);\n\npc2 = Elements.Element.GetParameterValueByName(t1, \"VLR_CONDUCTORES POR FASE\");",
+      "Id": "b7d3bf3ab2724e94932fc92bc5de1cb2",
+      "Inputs": [
+        {
+          "Id": "5bdfc509c2d64b3f8cc136a34d53f9b1",
+          "Name": "t1",
+          "Description": "t1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "60010f6b593144c484652eb9b22f41bb",
+          "Name": "",
+          "Description": "p1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5f856611ef964a4e86ef88c8d825fe97",
+          "Name": "",
+          "Description": "p2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "29c62cb41c7b47ebb49d92c6b0d335d7",
+          "Name": "",
+          "Description": "p3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a3c87daa9ecd450f9d64017d102840db",
+          "Name": "",
+          "Description": "p4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1f09f0a79c5b4199ac1ef5695ed472b8",
+          "Name": "",
+          "Description": "p5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "00a39f2526a44df8922f05118b953031",
+          "Name": "",
+          "Description": "p6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c405a0c44bad4e9abfc7e21f8c4544db",
+          "Name": "",
+          "Description": "p7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1b28636e941c46388e5fa0156087a95a",
+          "Name": "",
+          "Description": "pc1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "48f4d3bf84174753a3f0d11a753b98bc",
+          "Name": "",
+          "Description": "Value of expression at line 17",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ac6a929ea3b24b92a14ca82adc022ff3",
+          "Name": "",
+          "Description": "pc2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "//Cálculo de corriente nominal\n//Definir las variables\n\n//Número de fases\na = Fases;\n\n//Carga instalada del circuito\nb = Carga_instalada;\n\n//Voltage del sistema\nc = Voltage;\n\n// Fórmula para cálculo de corriente nóminal\n// dependiendo del numero de fases\nCorriente_Nominal = (a == 1) ? b / (c * 0.9) :\n            (a == 2) ? b / (2 * c * 0.9) :\n            (a == 3) ? b / ((Math.Sqrt(3)) * c * 0.9) :\n            \"Error\";\n  // O un valor predeterminado si D no es 1, 2, o 3",
+      "Id": "c86eacac586c4e3997b6c89e4ac41521",
+      "Inputs": [
+        {
+          "Id": "6f02fcc01c994352bf1edb940fb24b4f",
+          "Name": "Fases",
+          "Description": "Fases",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "695643d1e5624c7ca7a98476a8eea8d5",
+          "Name": "Carga_instalada",
+          "Description": "Carga_instalada",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "efcbf2ad27e04e059afd35e8dc7208b9",
+          "Name": "Voltage",
+          "Description": "Voltage",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d50f183dc6aa441d80bba5d904277c79",
+          "Name": "",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "803b972baaf74d30badfb255fd026464",
+          "Name": "",
+          "Description": "b",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a3876c6d40e441019f020ce7b9d7d88c",
+          "Name": "",
+          "Description": "c",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "729e38622c48453c8be7923719d8985e",
+          "Name": "",
+          "Description": "Corriente_Nominal",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.SetParameterByName@string,var",
+      "Id": "f8638bb4940b489dacd647aec4631fa2",
+      "Inputs": [
+        {
+          "Id": "bc92425c75264e159c6cff7251e3d368",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5b5348a6c37d48f78dc94bbf515218aa",
+          "Name": "parameterName",
+          "Description": "The name of the parameter to set.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4e754ddb5761412990ed4795918bbd00",
+          "Name": "value",
+          "Description": "The value.\n\nvar",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fc6632651c4f435db8ccdd3d6037148b",
+          "Name": "Element",
+          "Description": "Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Set one of the element's parameters.\n\nElement.SetParameterByName (parameterName: string, value: var): Element"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*NOMBRE DEL PARÁMETRO TÍPO NÚMERO\nDONDE SE ESCRIBIRÁN LOS RESULTADOS DE CAIDA DE TENSIÓN*/\n\n\n\"VLR_CAIDA DE TENSIÓN\";",
+      "Id": "cb7e8ce8eadf4dc4b11ce2ec3ea65b1d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "94a4ca305d294b3b9875a7960af0acb8",
+          "Name": "",
+          "Description": "Value of expression at line 5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "0;",
+      "Id": "5fda22bf4da144e7bc534d72274a36ce",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "bcf1432142c04ef59354096030d76aad",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "2;",
+      "Id": "e1235216fc4d4e91812a57bd9e04dcfb",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ba9a26b40a9f4cc7849b2fa1b761cac9",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.Math.Round@double,int",
+      "Id": "3e31f6671e2f4c15b982acaafe563a2c",
+      "Inputs": [
+        {
+          "Id": "d038ee8ff7fa4b86aea38f631e291fd8",
+          "Name": "number",
+          "Description": "Number to round\n\ndouble",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "85040eb076e4461c8f32f9b666ecef4a",
+          "Name": "digits",
+          "Description": "Number of fractional digits in the return value\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "45cb681585b14e9dbde018865d663067",
+          "Name": "number",
+          "Description": "The number nearest to value that contains a number of fractional digits equal to digits",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Rounds a number to a specified number of fractional digits.\n\nMath.Round (number: double, digits: int): double"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Lists.Lists.ReplaceNull@var[],var",
+      "Id": "6aa5c3254789496ebf3f9039761ccd73",
+      "Inputs": [
+        {
+          "Id": "b143531df7174003bd80155f29a70ff7",
+          "Name": "list",
+          "Description": "var[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6eff009f96024cb0a12f10e92ab29253",
+          "Name": "replacement",
+          "Description": "var",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fe8104986a674d608e002307165b94a7",
+          "Name": "var[]",
+          "Description": "var[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Lists.ReplaceNull (list: var[], replacement: var): var[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*Cálculo de caida de tensión por el método\nde sección transversal\nVariables\na = longitud del circuito\nb = corriente nominal\nc = voltage\nd = sección del conductor\ne = número de fases (polos)\n*/\n\ndef e_seccion_transversal(a,b,c,d,e)\n\n{\n\n//Fórmulas de caida de tensión\ncaida_tension1=(4*a*b)/(c*d);\ncaida_tension2=(2*a*b)/(c*d);\ncaida_tension3=(2*Math.Sqrt(3)*a*b)/(c*d);\n\n//Cálculo de la caida de tensión\ne_tension = (e == 1) ? caida_tension1 :\n\t\t\t\t(e == 2) ? caida_tension2 :\n\t\t\t\t(e == 3) ? caida_tension3 :\n\t\t\t\t\"Valor no válido\";\n\nreturn e_tension;\n\n};",
+      "Id": "66b5a21958c241188e2957ebd0557415",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*Cálculo de corriente nominal\nDefinir las variables\na =Número de fases\nb = Carga instalada del circuito\nc = Voltage del sistema\n*/\n\ndef corriente_Nominal(a,b,c)\n{\ncn = (a == 1) ? b / (c * 0.9) :\n            (a == 2) ? b / (2 * c * 0.9) :\n            (a == 3) ? b / ((Math.Sqrt(3)) * c * 0.9) :\n            \"Error\";\nreturn cn;\n};",
+      "Id": "7b201d448a8c4c6eab138f96b42ca656",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*Convertir un calibre AWG de número a texto\nLa operación se hace con If incrustado ya que Dynamo\nno permite el uso de números para las llaves en un\ndiccionario*/\n\ndef conductor_AWG(CONDUCTOR_DECIMAL)\n{\nresultado = (CONDUCTOR_DECIMAL == 14) ? \"14\" :\n            (CONDUCTOR_DECIMAL == 12) ? \"12\" :\n            (CONDUCTOR_DECIMAL == 10) ? \"10\" :\n            (CONDUCTOR_DECIMAL == 8) ? \"8\" :\n            (CONDUCTOR_DECIMAL == 6) ? \"6\" :\n            (CONDUCTOR_DECIMAL == 4) ? \"4\" :\n            (CONDUCTOR_DECIMAL == 2) ? \"2\" :\n            (CONDUCTOR_DECIMAL == 0.01) ? \"1/0\" :\n            (CONDUCTOR_DECIMAL == 0.002) ? \"2/0\" :\n            (CONDUCTOR_DECIMAL == 0.0003) ? \"3/0\" :\n            (CONDUCTOR_DECIMAL == 0.00004) ? \"4/0\" :\n            (CONDUCTOR_DECIMAL == 250) ? \"250\" :\n            (CONDUCTOR_DECIMAL == 300) ? \"300\" :\n            (CONDUCTOR_DECIMAL == 350) ? \"350\" :\n            (CONDUCTOR_DECIMAL == 400) ? \"400\" :\n            (CONDUCTOR_DECIMAL == 500) ? \"500\" :\n            (CONDUCTOR_DECIMAL == 600) ? \"600\" :\n            (CONDUCTOR_DECIMAL == 750) ? \"750\" :\n            (CONDUCTOR_DECIMAL == 1000) ? \"1000\" :\n            \"0\";\n\nreturn resultado;\n\n};",
+      "Id": "e6041344df3a42b297560d9ff89c99db",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "//Sección transversal de conductores\n\ndef seccion_del_conductor(st1 : string)\n{\n\ndict1 = {\n    \"14\": 2.08,\n    \"12\": 3.31,\n    \"10\": 5.26,\n    \"8\": 8.37,\n    \"6\": 13.3,\n    \"4\": 21.2,\n    \"2\": 33.6,\n    \"1/0\": 53.49,\n    \"2/0\": 67.43,\n    \"3/0\": 85.01,\n    \"4/0\": 107.2,\n    \"250\": 127,\n    \"300\": 152,\n    \"350\": 177,\n    \"400\": 203,\n    \"500\": 253,\n    \"600\": 304,\n    \"750\": 380,\n    \"1000\": 507\n};\nseccion = Dictionary.ValueAtKey(dict1,st1);\n\nreturn seccion;\n\n};",
+      "Id": "ac79425da33345dc8577b7d2849d2ee9",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "//Cálculo de caida de tensión\n//Método por Impedancia\n//Variables\n\n//longitud del circuito conversión a KM\na=long/1000;\n //Corriente nominal;\nb=corriente_nominal;\n //Tensión del sistema;\nd=voltage;\n//sección transversal del conductor\ne= secc_cond;\n\n//Fórmulas de caida de tensión\ncaida_tension1=(4*a*b)/(d*e);\ncaida_tension2=(2*a*b)/(d*e);\ncaida_tension3=(2*Math.Sqrt(3)*a*b)/(d*e);\n\n//Cálculo de la caida de tensión\ncaida_tension = (Polos == 1) ? caida_tension1 :\n\t\t\t\t(Polos == 2) ? caida_tension2 :\n\t\t\t\t(Polos == 3) ? caida_tension3 :\n\t\t\t\t\"Valor no válido\";",
+      "Id": "7830fb4adcb9408782e5cfeed60e2a91",
+      "Inputs": [
+        {
+          "Id": "8c2825df41d2423f9022fab3f372820c",
+          "Name": "long",
+          "Description": "long",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "379f2c2d5c5c4978a67082695c8a2acc",
+          "Name": "corriente_nominal",
+          "Description": "corriente_nominal",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9dc81bb6aff14697b1e7be7ac1c21b97",
+          "Name": "voltage",
+          "Description": "voltage",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "da92c52ce3674e6c9f9391271b69dc70",
+          "Name": "secc_cond",
+          "Description": "secc_cond",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "772b7a70722e4701bf92d3c6976fd0cb",
+          "Name": "Polos",
+          "Description": "Polos",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f5ee9ff2141b494c806314bf1b87ab8a",
+          "Name": "",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0d451c6398a74ed19f1c978ed2a51e38",
+          "Name": "",
+          "Description": "b",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c4cdcd4e9b7b44428c1177ba52c48c88",
+          "Name": "",
+          "Description": "d",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3b6a6c6619634298a23afd3bc9062bb0",
+          "Name": "",
+          "Description": "e",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "906e22ea5804431c95494a027136d90e",
+          "Name": "",
+          "Description": "caida_tension1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cb82198ed2f442d28e3367462fd107c1",
+          "Name": "",
+          "Description": "caida_tension2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bc3f8f9cef81401396c1fb3d67597b7a",
+          "Name": "",
+          "Description": "caida_tension3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f6116a25f255400382c3e7d8a36b6130",
+          "Name": "",
+          "Description": "caida_tension",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "1a5fa0cfdf254115bafb3f45bf48f291",
+      "End": "8671ab4bc11d4077b307f7c2ddc792c7",
+      "Id": "cbcd0a7eed264b5c8930684c1d3a38a4"
+    },
+    {
+      "Start": "1a5fa0cfdf254115bafb3f45bf48f291",
+      "End": "bc92425c75264e159c6cff7251e3d368",
+      "Id": "2f160fd258064af195fc7eff51239f9b"
+    },
+    {
+      "Start": "1a5fa0cfdf254115bafb3f45bf48f291",
+      "End": "5bdfc509c2d64b3f8cc136a34d53f9b1",
+      "Id": "1718327f80584254b8e4ddf1f2566d33"
+    },
+    {
+      "Start": "54a3568badef47e9a8ac4107253b0cae",
+      "End": "a9d55d077e6248c6acf8c4e749e6c001",
+      "Id": "c37694afc89c4d2d943a4c7d2a0be0a7"
+    },
+    {
+      "Start": "dd09debfce5943f8b0c090501b39b32f",
+      "End": "ae68f54c059f468083d577a760b6857c",
+      "Id": "7fe1f60bbfeb48d8afbccbe7200df9b2"
+    },
+    {
+      "Start": "dd696fd621cf41b397b11ca4f5b49b9e",
+      "End": "b143531df7174003bd80155f29a70ff7",
+      "Id": "bd07124935434dc086bf34841dea8435"
+    },
+    {
+      "Start": "60010f6b593144c484652eb9b22f41bb",
+      "End": "61f8b00f3c1a41b2a492f531102b82a2",
+      "Id": "16f86b84d4174a09bacbfbab6cfc1ef5"
+    },
+    {
+      "Start": "29c62cb41c7b47ebb49d92c6b0d335d7",
+      "End": "f197cd8b77024437ba9d6848d636bd25",
+      "Id": "856e9499b53445abadf54e8887b9be92"
+    },
+    {
+      "Start": "29c62cb41c7b47ebb49d92c6b0d335d7",
+      "End": "efcbf2ad27e04e059afd35e8dc7208b9",
+      "Id": "b8dc1ab46d704057a1e67d17c72381c1"
+    },
+    {
+      "Start": "a3c87daa9ecd450f9d64017d102840db",
+      "End": "41d42916185a44e18c68ce05ed7b755e",
+      "Id": "3fb86a14990f4d40ac60aa5059293cf0"
+    },
+    {
+      "Start": "a3c87daa9ecd450f9d64017d102840db",
+      "End": "6f02fcc01c994352bf1edb940fb24b4f",
+      "Id": "1ffdc0c4535f46f5bf791abf7201168a"
+    },
+    {
+      "Start": "c405a0c44bad4e9abfc7e21f8c4544db",
+      "End": "695643d1e5624c7ca7a98476a8eea8d5",
+      "Id": "34b5b613a2cf4cd9b9b8fc740b1c8067"
+    },
+    {
+      "Start": "48f4d3bf84174753a3f0d11a753b98bc",
+      "End": "30edea271d584e4abfd22f09dbebcbd4",
+      "Id": "4cd332b5d78745ab9e1f60435dbdf166"
+    },
+    {
+      "Start": "729e38622c48453c8be7923719d8985e",
+      "End": "db070f6aa97c4826a317d29adc67f9c2",
+      "Id": "e7e4ba62d5f447fe96ad66d7ffb4432b"
+    },
+    {
+      "Start": "94a4ca305d294b3b9875a7960af0acb8",
+      "End": "5b5348a6c37d48f78dc94bbf515218aa",
+      "Id": "6aa24565f6d141e6b4f092e593ec21a5"
+    },
+    {
+      "Start": "bcf1432142c04ef59354096030d76aad",
+      "End": "6eff009f96024cb0a12f10e92ab29253",
+      "Id": "23870d4fdb944684b99fe4920760b7f8"
+    },
+    {
+      "Start": "ba9a26b40a9f4cc7849b2fa1b761cac9",
+      "End": "85040eb076e4461c8f32f9b666ecef4a",
+      "Id": "fac38842df08431cabb7ed66e40895f7"
+    },
+    {
+      "Start": "45cb681585b14e9dbde018865d663067",
+      "End": "4e754ddb5761412990ed4795918bbd00",
+      "Id": "f848b18835584e17956bdcf290900181"
+    },
+    {
+      "Start": "fe8104986a674d608e002307165b94a7",
+      "End": "d038ee8ff7fa4b86aea38f631e291fd8",
+      "Id": "b73b3ac5bb9c4485a38f7a00fd052c0d"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "archi-lab.net",
+      "Version": "2023.213.1722",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "6aa5c3254789496ebf3f9039761ccd73"
+      ]
+    }
+  ],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "2.12",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "1.10",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.12.1.8246",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "All Elements of Category",
+        "Id": "daa0227188684d0cbf4bc2c96fc8b0f3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -85.7826155046114,
+        "Y": -1316.75076264431
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Categories",
+        "Id": "89cad5aa2f7a4b79a5e9e8251d0ed1d1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": true,
+        "X": -336.762490346979,
+        "Y": -1325.36402223678
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.GetParameterValueByName",
+        "Id": "04d2bd99fd4d473ea7d72d6fc2a8b2ed",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 329.442245050921,
+        "Y": -1224.64017892885
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "String",
+        "Id": "fcc40dc3ab4947058817c266384a50e4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 193.076233869758,
+        "Y": -1176.17788316315
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "305e7984822b431db1c280c24b581c0c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2437.9978116125194,
+        "Y": -954.25499495292547
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "b7d3bf3ab2724e94932fc92bc5de1cb2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 753.355901566054,
+        "Y": -1354.3860560716175
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "c86eacac586c4e3997b6c89e4ac41521",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1632.8351034995394,
+        "Y": -994.02639693416643
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.SetParameterByName",
+        "Id": "f8638bb4940b489dacd647aec4631fa2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 4742.024004990807,
+        "Y": -953.47370432581613
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "cb7e8ce8eadf4dc4b11ce2ec3ea65b1d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 4206.681700046146,
+        "Y": -957.67595143041513
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "5fda22bf4da144e7bc534d72274a36ce",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3296.82535364282,
+        "Y": -604.622773173139
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "e1235216fc4d4e91812a57bd9e04dcfb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3676.07097687733,
+        "Y": -535.736743807208
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Math.Round",
+        "Id": "3e31f6671e2f4c15b982acaafe563a2c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3826.06266484311,
+        "Y": -630.344264950729
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Lists.ReplaceNull",
+        "Id": "6aa5c3254789496ebf3f9039761ccd73",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3409.89130651099,
+        "Y": -655.489618187698
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "66b5a21958c241188e2957ebd0557415",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1697.71432244388,
+        "Y": -1770.69410669152
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "7b201d448a8c4c6eab138f96b42ca656",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2116.5405569625673,
+        "Y": -1553.3318174829167
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "e6041344df3a42b297560d9ff89c99db",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2637.70489646858,
+        "Y": -1822.69410669152
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "ac79425da33345dc8577b7d2849d2ee9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3121.4650506301682,
+        "Y": -1833.2713535613466
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "7830fb4adcb9408782e5cfeed60e2a91",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3564.81872642255,
+        "Y": -1682.69410669152
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "895affdfcac447c9a8edf3ea68c35cb1",
+        "Title": "Obtener todos los circuitos del proyecto",
+        "Nodes": [
+          "daa0227188684d0cbf4bc2c96fc8b0f3",
+          "89cad5aa2f7a4b79a5e9e8251d0ed1d1",
+          "04d2bd99fd4d473ea7d72d6fc2a8b2ed",
+          "fcc40dc3ab4947058817c266384a50e4"
+        ],
+        "Left": -346.762490346979,
+        "Top": -1378.36402223678,
+        "Width": 949.2047353979,
+        "Height": 272.72384330793011,
+        "FontSize": 36.0,
+        "InitialTop": -1325.36402223678,
+        "InitialHeight": 294.1861390736301,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "3b3432de6dbf42f59b4461df2deebe0e",
+        "Title": "Corriente Nominal",
+        "Nodes": [
+          "c86eacac586c4e3997b6c89e4ac41521"
+        ],
+        "Left": 1622.8351034995394,
+        "Top": -1047.0263969341663,
+        "Width": 633.0,
+        "Height": 453.99999999999989,
+        "FontSize": 36.0,
+        "InitialTop": -994.02639693416643,
+        "InitialHeight": 144.99999999999989,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "47d65b5a884a47aea8e79ba722218f94",
+        "Title": "Parámetros del modelo BIM",
+        "Nodes": [
+          "b7d3bf3ab2724e94932fc92bc5de1cb2"
+        ],
+        "Left": 743.355901566054,
+        "Top": -1407.3860560716175,
+        "Width": 742.0,
+        "Height": 471.0,
+        "FontSize": 36.0,
+        "InitialTop": -1354.3860560716175,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "5d4b01fdafb84415843f56fc027fc4ee",
+        "Title": "Caida de tensión",
+        "Nodes": [
+          "305e7984822b431db1c280c24b581c0c"
+        ],
+        "Left": 2427.9978116125194,
+        "Top": -1007.2549949529255,
+        "Width": 596.0,
+        "Height": 524.0,
+        "FontSize": 36.0,
+        "InitialTop": -954.25499495292547,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "ec31acddd6134fb488455861f2a44206",
+        "Title": "Funciones",
+        "Nodes": [
+          "7830fb4adcb9408782e5cfeed60e2a91",
+          "ac79425da33345dc8577b7d2849d2ee9",
+          "e6041344df3a42b297560d9ff89c99db",
+          "7b201d448a8c4c6eab138f96b42ca656",
+          "66b5a21958c241188e2957ebd0557415"
+        ],
+        "Left": 1687.71432244388,
+        "Top": -1886.2713535613466,
+        "Width": 2449.10440397867,
+        "Height": 674.57724686982669,
+        "FontSize": 36.0,
+        "InitialTop": -1833.2713535613466,
+        "InitialHeight": 424.93953607842991,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": -57.682837799234676,
+    "Y": 1034.9576089991915,
+    "Zoom": 0.59149209230600752
+  }
+}

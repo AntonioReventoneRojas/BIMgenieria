@@ -1,0 +1,17 @@
+title: Caida de Tensión
+tooltip: |
+    -Dynamo Script-
+    Calcula la caida de tensión de todos los circuitos
+    del proyecto y almacena la información en un parámetro
+    compartido.
+    
+    alt+clic
+    Inputs:
+    Calibre del conductor : Texto
+    
+    Output:
+    Caida de tensión : Número
+    
+    Para editar el .dyn y colocar los parámetros de input y output. 
+context: doc-project  
+author: Antonio Rojas | Isaac Manzano
