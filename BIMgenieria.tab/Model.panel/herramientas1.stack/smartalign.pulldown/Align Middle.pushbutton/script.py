@@ -13,7 +13,7 @@ pyRevit: repository at https://github.com/eirannejad/pyRevit
 
 __author__ = 'Gui Talarico | @gtalarico'
 __version__ = '0.4.0'
-__doc__ = 'Align Elements Vertically: Center'
+__doc__ = 'Align Elements Vertically: Middle'
 
 import sys
 import os

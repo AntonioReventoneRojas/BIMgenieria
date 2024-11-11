@@ -1,4 +1,10 @@
 title:
+<<<<<<< HEAD
+  en_us: File Shortcuts
+  
+ layout:
+ 
+=======
   en_us: 
     Folder
     Shortcuts
@@ -7,3 +13,4 @@ layout:
   - FolderShortcut_02
   - FolderShortcut_03
   - FolderShortcut_04
+>>>>>>> main

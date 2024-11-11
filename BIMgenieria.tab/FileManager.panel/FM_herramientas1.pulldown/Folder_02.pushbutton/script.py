@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-__title__= "Config Shortcuts" #Name of the button displayed in Revit UI
-__doc__= """
-Use this tool to config the paths of the
-shortcut folders.
+__title__= "Portal Norte" #Name of the button displayed in Revit UI
+__doc__= """Version 1.0
+Description:
 
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
 __author__= "Antonio Rojas"
+__helpurl= ""
 
 #IMPORTS
 #---------------------------------------------------------------
+import os
+import os
 import os, sys, datetime                                    #Regular imports
-
-import pyrevit.revit.db.query
 from Autodesk.Revit.DB import *                             #Import DB Classes
 from Autodesk.Revit.UI import *                             #Import UI Classes
 from Autodesk.Revit.DB.Electrical import  *                 #Import discipline modules
@@ -49,8 +49,9 @@ path_scrypt = os.path.dirname(__file__)             #Absolute path to folder whe
 #MAIN
 #---------------------------------------------------------------
 #CODE START HERE
-
-
+path = r"Z:\ValoraMX\INGENIERIA\Trabajos\GENSLER\01 CINEMEX\01 PATIO MARTIN CARRERA\02 EJECUTIVO\05. INGENIERÍAS"
+path = os.path.realpath(path)
+os.startfile(path)
 
 
 #CODE ENDS HERE

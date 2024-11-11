@@ -9,23 +9,40 @@ New ideas are wellcome. 💡
 
 As my first language is spanish some tools may write in spanish if you would like to help on translations be free to contact me on LinkedIn.
 
+## Tools 🔧
 
-## Installation
+Tools are grouped by use:
 
-Download the repository as .zip 
-Unzip the respositoy at:
+- File Management
 
-%appdata%\pyRevit\Extensions
+- Modeling Tools
 
-under construction
+- Electrical Tools
 
+- Plumbing Tools
+
+
+Many tools are under construction, please notify any bug o issue you find. 
+
+## Installation ⬇️
+
+1 - Download the repository as .zip
+
+2 - Move the .zip file to: 
+```bash
+  %appdata%\pyRevit\Extensions
+```
+3 - Unzip the package.
+
+4 - Rename the extracted folder as: BIMgenieria.extension
+
+5 - Go to PyRevit Config and add the path of the extension.
     
 ## Revit Versions ⌛
 
 These tools are mainly developed for Revit 2022.
 
-
-## Contributing
+## Contributing 🫂
 
 Contributions are always welcome!
 
