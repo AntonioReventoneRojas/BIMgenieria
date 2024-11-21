@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
-__title__= ("Synology\nIng Eléctrica") #Name of the button displayed in Revit UI
-__doc__= """Version 1.0
-Description:
+__title__= "Folder 3" #Name of the button displayed in Revit UI
+__doc__= """Assign shorcuts to folder project or any windows location.
+Set a keyboard shortcut (ks) to this button for easy access.
 
+Shift + Clic: Set the path to the button.
 """ #Description of the button displayed in Revit UI
-
 # pyRevit Extra MetaTags (optional)
 __author__= "Antonio Rojas"
+
+import json
+
+from pyrevit.coreutils import open_folder_in_explorer
+
 __helpurl= ""
 
 #IMPORTS
@@ -27,6 +32,8 @@ clr.AddReference('System')
 from System.Collections.Generic import List
 #List_example = List[ElementId]()
 
+
+
 #VARIABLES
 #---------------------------------------------------------------
 doc     = __revit__.ActiveUIDocument.Document       #type: Document
@@ -37,6 +44,7 @@ active_view = doc.ActiveView                        #Get current view
 path_scrypt = os.path.dirname(__file__)             #Absolute path to folder where sript is ocated
 
 #GLOBAL VARIABLES
+datafile = script.get_document_data_file("FolderShortcuts1", "json")
 
 #FUNCTIONS
 #---------------------------------------------------------------
@@ -49,10 +57,13 @@ path_scrypt = os.path.dirname(__file__)             #Absolute path to folder whe
 #MAIN
 #---------------------------------------------------------------
 #CODE START HERE
-path = r"C:\SynologyDrive\BIM Project\Ingeniería Eléctrica BIM"
-path = os.path.realpath(path)
-os.startfile(path)
+try:
+    with open(datafile, "r") as f:
+        mod_data = json.load(f)
+except:
+    mod_data = None
 
-
-#CODE ENDS HERE
-#---------------------------------------------------------------
+if mod_data:
+    path = mod_data.get("F3")
+    path = os.path.realpath(path)
+    os.startfile(path)
