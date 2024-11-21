@@ -1,16 +1,9 @@
 title:
-<<<<<<< HEAD
-  en_us: File Shortcuts
-  
- layout:
- 
-=======
   en_us: 
-    Folder
-    Shortcuts
+    "Folder\nShortcuts"
 layout:
-  - FolderShortcut_01
-  - FolderShortcut_02
-  - FolderShortcut_03
-  - FolderShortcut_04
->>>>>>> main
+  - Folder_01
+  - Folder_02
+  - Folder_03
+  - Folder_04
+  - Config
