@@ -48,15 +48,16 @@ path01 = None
 #MAIN
 #---------------------------------------------------------------
 #CODE START HERE
-datafile = script.get_document_data_file("FolderShortcuts1", "json")
 
+#CARGA EL ARCHIVO DE CONFIGURACIÓN
+datafile = script.get_document_data_file("FolderShortcuts1", "json")
 
 if datafile and os.path.exists(datafile) :
     # Si el archivo existe, cargar los datos
     with open(datafile, 'r') as f:
         mod_data = json.load(f)
 
-
+#IMRPIME EN PANTALLA LAS RUTAS ACTUALES ALMACENADAS EN EL ARCHIVO DE CONFIGURACIÓN
 output.print_md("## Current folder path's")
 for key, value in mod_data.iteritems():
     print(key, value)

@@ -10,7 +10,6 @@ Handle three way switches
 Ignore switches that all ready has Switch Id
 
 Author: Ing. Arq. Antonio Rojas
-
 """ #Description of the button displayed in Revit UI
 
 

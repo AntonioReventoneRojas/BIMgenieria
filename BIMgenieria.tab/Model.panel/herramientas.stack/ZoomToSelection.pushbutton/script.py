@@ -12,6 +12,7 @@ To do:
 - Handle views on sheets, schedules and other
 2D elements.
 
+Author: Ing. Arq. Antonio Rojas
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)

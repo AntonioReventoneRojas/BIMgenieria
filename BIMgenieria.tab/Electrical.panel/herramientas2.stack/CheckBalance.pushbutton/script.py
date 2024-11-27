@@ -12,6 +12,13 @@ cantidad de tableros la opcción 1 está asignada
 por defecto para usar la opcción 2 activa la 
 herramienta con
 "Shift-Click"
+
+Bug Fix: 🐞
+La herramienta lanza un error si el elemento 
+seleccionado no contiene el parámetro 
+Panel Name. 
+
+Autor: Ing. Arq. Antonio Rojas
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
@@ -20,6 +27,7 @@ __author__= "Antonio Rojas"
 #IMPORTS
 #---------------------------------------------------------------
 import os, sys, datetime                                    #Regular imports
+import pdb
 
 import pyrevit.revit.db.query
 from Autodesk.Revit.DB import *                             #Import DB Classes
@@ -63,10 +71,55 @@ if EXEC_PARAMS.config_mode:
     # Convertir a una lista de FamilyInstance
     elements = [element for element in electrical_equipment_filter if isinstance(element, FamilyInstance)]
 else:
-    # 2️⃣ MÉTODO 2 - TODOS LOS ELECTRICAL EQUIPMENT DEL MODELO
-    elements = revit.selection.pick_elements_by_category("Electrical Equipment","Select object")
+    with forms.WarningBar(title="Selecciona uno o varios tableros"):
+        # 2️⃣ MÉTODO 2 - TODOS LOS ELECTRICAL EQUIPMENT DEL MODELO
+        elements = revit.selection.pick_elements_by_category("Electrical Equipment","Select object")
 
 data_list = []
+
+
+#BUG FIX 🐞🐞🐞🐞
+"""POR AHORA EL SCRIPT FUNCIONA PERO SI EXISTE UN ELECTRICAL EQUIPMENT QUE NO SEA
+UN PART TYPE QUE CONTENGA EL PARÁMETRO PANEL NAME, EL SCRIPT SE DETIENE
+
+ESTE ES EL CÓDIGO QUE ME AYUDÓ A ENCONTRAR EL PROBLEMA"""
+    # for i, e in enumerate(elements):
+    #     try:
+    #         element_id = e.Id
+    #         print("Procesando el índice {0}, valor: {1}, ElementId {2}".format(i, e, element_id))  # Usando .format()
+    #         tab_name = e.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_NAME).AsString()
+    #
+    #
+    #     except Exception as ex:
+    #         print("Error en el índice {0} con valor {1}: {2}".format(i, e, ex))
+    #
+    #
+    # sys.exit()
+
+"""AQUI UNA POSIBLE SOLUCIÓN
+AL INICIAR EL SCRIPT CON LA SEGUNDA OPCIÓN SE DEBERÍA HACER UNA COMPROBACIÓN PARA SABER
+SI EL ELEMENTO ES UN PART TYPE ACEPTADO
+
+OTRA POSIBLE SOLUCIÓN SERÍA COMPROBAR SI EL PARÁMETRO PANEL NAME O CURRENT PHASE A
+EXISTE Y SI NO DETENER EL SCRIPT
+"""
+
+    # from Autodesk.Revit.DB import BuiltInParameter, PartType
+    #
+    #
+    # def get_family_part_type(family_instance):
+    #     """
+    #     Obtiene el PartType de una FamilyInstance.
+    #
+    #     :param family_instance: FamilyInstance a evaluar.
+    #     :return: PartType del FamilyInstance o PartType.Undefined si no se puede determinar.
+    #     """
+    #     if family_instance and family_instance.Symbol and family_instance.Symbol.Family:
+    #         family = family_instance.Symbol.Family
+    #         param = family.get_Parameter(BuiltInParameter.FAMILY_CONTENT_PART_TYPE)
+    #         if param:
+    #             return PartType(param.AsInteger())
+    #     return PartType.Undefined
 
 
 for e in elements:
@@ -76,6 +129,11 @@ for e in elements:
     currentB = e.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_CURRENT_PHASEB_PARAM).AsDouble()
     currentC = e.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_CURRENT_PHASEC_PARAM).AsDouble()
     element_id = e.Id
+
+    #Redondear a 2 decimales
+    currentA = round(currentA,2)
+    currentB = round(currentB,2)
+    currentC = round(currentC,2)
 
     #obtener máximos y minimos
     max_valor = max(currentA, currentB, currentC)
@@ -89,6 +147,7 @@ for e in elements:
 
     # Agregar a la lista el desbalanceo de cada tablero
     data_list.append([tab_name, currentA, currentB, currentC, desb, element_id])
+
 
 
 # Filtramos las listas que tienen un valor numérico en el índice 4
@@ -105,10 +164,8 @@ sorted_lists = sorted(numeric_lists, key=lambda x: x[4], reverse=True)
 #CODE ENDS HERE
 #---------------------------------------------------------------
 output.print_md("# Porcentaje de desbalanceo")
-output.print_md("### Fórmula")
-print("""
-((Corriente Mayor - Corriente Menor) / (Corriente Mayor)) * 100
-""")
+output.print_md("### Fórmula:")
+print("""((Corriente Mayor - Corriente Menor) / (Corriente Mayor)) * 100""")
 print("-"*75)
 
 output.print_md("### Tablero más crítico")

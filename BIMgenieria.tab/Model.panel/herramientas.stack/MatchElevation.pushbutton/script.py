@@ -11,6 +11,7 @@ How to:
 Select a conduit or cable tray, run the tool
 then select target elements. 
 
+Author: Ing. Arq. Antonio Rojas
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
