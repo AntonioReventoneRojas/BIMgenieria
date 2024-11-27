@@ -3,7 +3,9 @@
 
 __title__ = "Scope Box"
 __doc__   = """
-Description: Turn off / on the Scope Boxes in current view
+Turn off / on the Scope Boxes in current view
+
+Author: Ing. Arq. Antonio Rojas
 """
 __author__ = "Antonio Rojas"
 

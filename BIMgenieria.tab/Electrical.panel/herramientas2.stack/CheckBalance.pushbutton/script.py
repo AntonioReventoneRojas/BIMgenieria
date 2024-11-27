@@ -17,6 +17,8 @@ Bug Fix: 🐞
 La herramienta lanza un error si el elemento 
 seleccionado no contiene el parámetro 
 Panel Name. 
+
+Autor: Ing. Arq. Antonio Rojas
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
@@ -69,8 +71,9 @@ if EXEC_PARAMS.config_mode:
     # Convertir a una lista de FamilyInstance
     elements = [element for element in electrical_equipment_filter if isinstance(element, FamilyInstance)]
 else:
-    # 2️⃣ MÉTODO 2 - TODOS LOS ELECTRICAL EQUIPMENT DEL MODELO
-    elements = revit.selection.pick_elements_by_category("Electrical Equipment","Select object")
+    with forms.WarningBar(title="Selecciona uno o varios tableros"):
+        # 2️⃣ MÉTODO 2 - TODOS LOS ELECTRICAL EQUIPMENT DEL MODELO
+        elements = revit.selection.pick_elements_by_category("Electrical Equipment","Select object")
 
 data_list = []
 
@@ -161,10 +164,8 @@ sorted_lists = sorted(numeric_lists, key=lambda x: x[4], reverse=True)
 #CODE ENDS HERE
 #---------------------------------------------------------------
 output.print_md("# Porcentaje de desbalanceo")
-output.print_md("### Fórmula")
-print("""
-((Corriente Mayor - Corriente Menor) / (Corriente Mayor)) * 100
-""")
+output.print_md("### Fórmula:")
+print("""((Corriente Mayor - Corriente Menor) / (Corriente Mayor)) * 100""")
 print("-"*75)
 
 output.print_md("### Tablero más crítico")

@@ -10,11 +10,11 @@ Shift + Click: Show the actual stored folder location.
 # pyRevit Extra MetaTags (optional)
 __author__= "Antonio Rojas"
 
-import json
+
 #IMPORTS
 #---------------------------------------------------------------
 import os, sys, datetime                                    #Regular imports
-
+import json
 import pyrevit.revit.db.query
 from Autodesk.Revit.DB import *                             #Import DB Classes
 from Autodesk.Revit.UI import *                             #Import UI Classes
@@ -39,8 +39,25 @@ active_view = doc.ActiveView                        #Get current view
 path_scrypt = os.path.dirname(__file__)             #Absolute path to folder where sript is ocated
 
 #GLOBAL VARIABLES
-datafile = script.get_document_data_file("FolderShortcuts1", "json")
+#VARIABLE QUE PERMITE UTILIZAR IMPRESIONES CUSTOM EN LA TERMINAL
 output = script.get_output()
+
+
+#FUNCTIONS
+#---------------------------------------------------------------
+
+
+#CLASSES
+#---------------------------------------------------------------
+
+
+#MAIN
+#---------------------------------------------------------------
+#CODE START HERE
+
+
+datafile = script.get_document_data_file("FolderShortcuts1", "json")
+
 
 if datafile and os.path.exists(datafile) :
     # Si el archivo existe, cargar los datos
@@ -55,18 +72,7 @@ else:
     with open(datafile, 'w') as f:
         json.dump(mod_data, f, indent=4)
 
-
-#FUNCTIONS
-#---------------------------------------------------------------
-
-
-#CLASSES
-#---------------------------------------------------------------
-
-
-#MAIN
-#---------------------------------------------------------------
-#CODE START HERE
+#PREGUNTA AL USUARIO QUE SHORTCUT DESEA CONFIGURAR
 try:
     selected_option = forms.CommandSwitchWindow.show(
         ['Folder 1', 'Folder 2', 'Folder 3', 'Folder 4'],
@@ -91,7 +97,7 @@ elif selected_option == 'Folder 3':
 elif selected_option == 'Folder 4':
     mod_data["F4"] = forms.pick_folder()
 
-
+#ESCRIBE LA INFORMACIÓN EN EL ARCHIVO DE CONFIGURACIÓN
 try:
     f = open(datafile, 'w')
     json.dump(mod_data, f)
@@ -99,6 +105,7 @@ try:
 except:
     print("Error: Fail to write .json file")
 
+#IMPRIME UNA CONFIRMACIÓN DEL SCRIPT
 output.print_md("## Saved folder paths")
 for key, value in mod_data.iteritems():
     print(key, value)
