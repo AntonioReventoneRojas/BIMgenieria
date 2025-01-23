@@ -1,7 +1,9 @@
 layout:
+  - Lab
   - Dev
   - Info
   - FileManager
   - Model
   - Electrical
   - Plumbing
+  - HVAC

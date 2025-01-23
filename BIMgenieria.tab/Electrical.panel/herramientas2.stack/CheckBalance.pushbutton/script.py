@@ -10,8 +10,7 @@ La herramienta tiene dos modos de uso:
 Para evitar crasheos en proyectos con gran 
 cantidad de tableros la opcción 1 está asignada
 por defecto para usar la opcción 2 activa la 
-herramienta con
-"Shift-Click"
+herramienta con: "Shift-Click"
 
 Bug Fix: 🐞
 La herramienta lanza un error si el elemento 

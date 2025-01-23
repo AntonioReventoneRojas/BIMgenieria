@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-__title__= "Config Shortcuts" #Name of the button displayed in Revit UI
+__title__= "Get 3D Section Box" #Name of the button displayed in Revit UI
 __doc__= """ 
-Use this tool to config the paths of the
-shortcut folders.
 
-Shift + Click: Show the actual stored folder location.
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
@@ -55,60 +52,28 @@ output = script.get_output()
 #---------------------------------------------------------------
 #CODE START HERE
 
+# Definir una función para seleccionar una caja y obtener las coordenadas
+def pick_box_coordinates():
+    try:
+        # Usar PickBox para obtener la caja seleccionada
+        picked_box = uidoc.Selection.PickBox(PickBoxStyle.Directional, "Selecciona una caja")
+        
+        if picked_box:
+            # Obtener las coordenadas XYZ de los puntos min y max
+            min_point = picked_box.Min
+            max_point = picked_box.Max
+            
+            # Mostrar las coordenadas al usuario
+            print("Punto mínimo: {0}".format(min_point))
+            print("Punto máximo: {0}".format(max_point))
+        else:
+            print("No se seleccionó ninguna caja.")
+    except Exception as e:
+        print("Error: {0}".format(e))
 
-datafile = script.get_document_data_file("FolderShortcuts1", "json")
+# Ejecutar la función
+pick_box_coordinates()
 
-
-if datafile and os.path.exists(datafile) :
-    # Si el archivo existe, cargar los datos
-    with open(datafile, 'r') as f:
-        mod_data = json.load(f)
-else:
-    # Si no existe, inicializar los datos y crear el archivo
-    path1 = path2 = path3 = path4 = None
-    mod_data = {"F1": path1, "F2": path2, "F3": path3, "F4": path4}
-
-    # Crear el archivo y guardar los datos iniciales
-    with open(datafile, 'w') as f:
-        json.dump(mod_data, f, indent=4)
-
-#PREGUNTA AL USUARIO QUE SHORTCUT DESEA CONFIGURAR
-try:
-    selected_option = forms.CommandSwitchWindow.show(
-        ['Folder 1', 'Folder 2', 'Folder 3', 'Folder 4'],
-         message='Select Option:',
-    )
-except:
-    exit()
-
-# Lógica para seleccionar carpetas
-if selected_option == 'Folder 1':
-    mod_data["F1"] = forms.pick_folder()
-
-
-elif selected_option == 'Folder 2':
-    mod_data["F2"] = forms.pick_folder()
-
-
-elif selected_option == 'Folder 3':
-    mod_data["F3"]  = forms.pick_folder()
-
-
-elif selected_option == 'Folder 4':
-    mod_data["F4"] = forms.pick_folder()
-
-#ESCRIBE LA INFORMACIÓN EN EL ARCHIVO DE CONFIGURACIÓN
-try:
-    f = open(datafile, 'w')
-    json.dump(mod_data, f)
-    f.close()
-except:
-    print("Error: Fail to write .json file")
-
-#IMPRIME UNA CONFIRMACIÓN DEL SCRIPT
-output.print_md("## Saved folder paths")
-for key, value in mod_data.iteritems():
-    print(key, value)
 
 #CODE ENDS HERE
 #---------------------------------------------------------------
