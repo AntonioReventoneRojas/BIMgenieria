@@ -120,13 +120,6 @@ def caida_tension_seccion_transversal(longitud_circuito,
 #CODE START HERE
 calc_caida_tension = []
 
-
-
-
-# #DEBUG SELECCIONA EL PRIMER ELEMENTO
-# collector = DB.FilteredElementCollector(doc).OfClass(DB.Electrical.ElectricalSystem)
-# circuits = collector.FirstElement()
-
 # Obtener la categoría de Electrical Circuits correctamente
 electrical_circuit_category = DB.BuiltInCategory.OST_ElectricalCircuit
 
@@ -167,21 +160,21 @@ except:
 #OBTENER EL PARÁMETRO DONDE SE ALMACENARÁ LA CAIDA DE TENSIÓN
 if param_config:
     print(param_config)
-    # param = param_config.get("Caida de tension")
+    param = param_config.get("Caida de tension")
 
 
-#INICIAR LA ESCRITURA DE LOS RESULTADOS A CADA UNO DE LOS CIRCUITOS
-# t = Transaction(doc, __title__)
-# t.Start()
-#
-# for e in circuits:
-#     param_caida_tension = e.LookupParameter(param)
-#     param_caida_tension.Set(calc_caida_tension)
-#
-#
-# t.Commit()
-#
-# print("Se encontraron {} elementos de tipo Electrical Circuit.".format(len(circuits)))
+INICIAR LA ESCRITURA DE LOS RESULTADOS A CADA UNO DE LOS CIRCUITOS
+t = Transaction(doc, __title__)
+t.Start()
+
+for e in circuits:
+    param_caida_tension = e.LookupParameter(param)
+    param_caida_tension.Set(calc_caida_tension)
+
+
+t.Commit()
+
+print("Se encontraron {} elementos de tipo Electrical Circuit.".format(len(circuits)))
 
 #CODE ENDS HERE
 #---------------------------------------------------------------

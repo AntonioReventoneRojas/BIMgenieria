@@ -3,10 +3,7 @@ __title__= "Tabla de Calibres" #Name of the button displayed in Revit UI
 __doc__= """Tabla para la construcción de ductos 
 rectangulares de baja presión.
 
-Fuente: Guías Técnicas de Construcción 
-Instalaciones de Aire Acondicionado 
-IMSS
-México
+Fuente: AMERIC NAM-001-AA-83
 
 """ #Description of the button displayed in Revit UI
 
@@ -70,10 +67,7 @@ output.print_table(table_data=data,
                        formats=["", "",
                                 ""]
                       )
-print("""Fuente: Guías Técnicas de Construcción 
-Instalaciones de Aire Acondicionado 
-IMSS
-México""")
+print("""Fuente: AMERIC NAM-001-AA-83""")
 
 #CODE ENDS HERE
 #---------------------------------------------------------------

@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
-__title__= "Calibre de Lamina" #Name of the button displayed in Revit UI
+__title__= "Calibre de\nLamina" #Name of the button displayed in Revit UI
 __doc__= """Asigna el calibre de lamina de a cuerdo 
 al lado mayor del ducto, como lo es indicado en la 
-A.S.H.R.A.E. "Shift-Click"
+norma mexicana de la AMERIC
+NAM-001-AA-83
+
+Configuración inicial ⚙️
+Shift + Clic 
+
+Autor: Ing. Arq. Antonio Rojas
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
@@ -10,7 +16,9 @@ __author__= "Antonio Rojas"
 
 #IMPORTS
 #---------------------------------------------------------------
-import os, sys, datetime                                    #Regular imports
+import os, sys                                   #Regular imports
+import json
+import codecs
 
 import pyrevit.revit.db.query
 from Autodesk.Revit.DB import *                             #Import DB Classes
@@ -61,7 +69,6 @@ collector = (
     .ToElements()
 )
 
-
 #REVISAR SI EL ELEMENTO ES CUADRADO, OVALADO O CIRCULAR
 ducts_cuadrado = []
 ducts_redondo = []
@@ -73,8 +80,6 @@ for d in collector:
     elif "ø" in duct_size:
         ducts_redondo.append(d)
 
-
-
 #LISTAS PARA ALMACENAR LOS ELEMENTOS CLASIFICADOS
     list_cal26 = []
     list_cal24 = []
@@ -83,8 +88,6 @@ for d in collector:
     list_cal18 = []
 
 #ITERAR EN LOS DUCTOS CUADRADOS PARA OBTENER EL LADO MAYOR
-
-
 for d in ducts_cuadrado:
     duct_height_ft = d.get_Parameter(BuiltInParameter.RBS_CURVE_HEIGHT_PARAM).AsDouble()
     duct_width_ft = d.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble()
@@ -115,26 +118,37 @@ for d in ducts_cuadrado:
     else:
         print("Error al obtener el lado mayor")
 
+#LEER DATOS DEL JSON PARA OBTENER LOS PARÁMETROS
+datafile = script.get_document_data_file("Calibre_de_lamina", "json")
+try:
+    with open(datafile, "r") as f:
+        param_config = json.load(f)
+except:
+    param_config = None
 
+#OBTENER EL PARÁMETRO DONDE SE ALMACENARÁ LA CAIDA DE TENSIÓN
+if param_config:
+    param = param_config.get("Calibre de lamina")
 
 #ESCRIBIR EN EL PARÁMETRO SELECCIONADO LOS VALORES
 t = Transaction(doc, __title__)
 t.Start()
 
 for d in list_cal26:
-    d.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Calibre 26")
+    param_calibre_lamina = d.LookupParameter(param)
+    param_calibre_lamina.Set("Calibre 26")
 
 for d in list_cal24:
-    d.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Calibre 24")
+    d.LookupParameter(param).Set("Calibre 24")
 
 for d in list_cal22:
-    d.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Calibre 22")
+    d.LookupParameter(param).Set("Calibre 22")
 
 for d in list_cal20:
-    d.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Calibre 20")
+    d.LookupParameter(param).Set("Calibre 20")
 
 for d in list_cal18:
-    d.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("Calibre 18")
+    d.LookupParameter(param).Set("Calibre 18")
 
 t.Commit()
 

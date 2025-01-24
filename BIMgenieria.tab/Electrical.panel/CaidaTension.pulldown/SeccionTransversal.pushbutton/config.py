@@ -1,17 +1,6 @@
 # -*- coding: utf-8 -*-
-__title__= "Caida de Tensión" #Name of the button displayed in Revit UI
-__doc__= """ Calcula la caida de tensión de todos los circuitos
-del proyecto y almacena la información en un parámetro.
-
-alt+clic
-Inputs:
-Calibre del conductor : Texto
-
-Output:
-Caida de tensión : Número
-    
-    Para editar el .dyn y colocar los parámetros de input y output. 
-
+__title__= "Caida de Tensión Configuración" #Name of the button displayed in Revit UI
+__doc__= """ 
 """ #Description of the button displayed in Revit UI
 
 # pyRevit Extra MetaTags (optional)
